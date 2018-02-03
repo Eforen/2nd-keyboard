@@ -3,14 +3,13 @@
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
-if (%2% = "safe"){
-	MsgBox, |%2%| is safe
-} else{
-	MsgBox, |%2%| not safe
-}
+CoordMode, Mouse, Screen  ; Place Mouse at absolute screen coordinates:
+
+isSafe = %2%
 
 ;Move mouse out of the way
-if (%2% = "safe"){
+if (isSafe = "safe"){
+	BlockInput MouseMove
 	MouseGetPos, MouseX, MouseY
 	MouseMove, 0, 0
 }
@@ -18,7 +17,8 @@ if (%2% = "safe"){
 Send, %1%
 
 ;Put mouse back
-if (%2% = "safe"){
-	MsgBox, MouseMove %MouseX% %MouseY%
-	MouseMove, %MouseX%, %MouseY%
+if (isSafe = "safe"){
+	MouseMove, MouseX, MouseY
+	
+	BlockInput MouseMoveOff
 }
